@@ -7,7 +7,7 @@ A Vue plugin to check data objects
 Into a Vue 2 project
 
 ```
-npm install --save github:geandre/vue-check
+npm install --save vue-check
 ```
 
 ```
