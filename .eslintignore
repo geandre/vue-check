@@ -1,0 +1,4 @@
+vue-check.min.js
+*.spec.js
+*rc$
+dist/*
