@@ -55,34 +55,146 @@
 Vue.use(VueCheck, { lang: 'en-US', format: 'flat' });</code></pre><h2>Getting Started</h2><p>VueCheck exposes an instance property called $check with some checker methods:</p>
 <pre class="prettyprint source"><code>vm.$check.isString(&quot;&quot;)      // true
 vm.$check.isBoolean(false)  // true
-vm.$check.isEmpty(null)     // true</code></pre><blockquote>
-<p>Check the docs at section Checkers for more.</p>
-</blockquote>
+vm.$check.isEmpty(null)     // true</code></pre><p>Check the docs at section <a href="https://geandre.github.io/vue-check/module-Checkers.html">Checkers</a>
+for all methods.</p>
 <p>Also a property called $validate is provided with a function that can check an object based in a
 rule object, and returning a list of inconsistency:</p>
-<pre class="prettyprint source"><code>const value = {
-  name: &quot;Geandre Miranda&quot;,
-  age: 23
-}
-
-const rules = {
-  name: {                 // The rule key must match the value property or be a path with dot
-                          // notation as 'prop.subprop'
-    alias: 'Full Name',   // An alias to the field, if none is provided the rule key is used
-    type: 'string',       // MUST BE a string
-    empty: false,         // CAN NOT BE empty
-    min: 3,               // For type String OR Array refers to length property
-    max: 255              // For type String OR Array refers to length property
+<pre class="prettyprint source"><code>vm.$validate(value, rules); // Array | undefined</code></pre><h3>Building rule objects</h3><p>Rules objects are based on value objects.</p>
+<p>For example, let's assume that we need to validate a person object like this one:</p>
+<pre class="prettyprint source lang-js"><code>const aPerson = {
+  id: 123,
+  name: &quot;Jon Doe&quot;,
+  gender: &quot;M&quot;,
+  birth: new Date(&quot;2000-01-01&quot;),
+  email: &quot;jon_doe@email.com&quot;,
+  address: {
+    zipCode: &quot;78890000&quot;,
+    cityName: &quot;Smile Town&quot;,
+    street: &quot;District, Stret, 123&quot;
   },
-  age: {
-    alias: 'How old',
-    type: 'integer',      // integer and float are available
+  phones: [&quot;+55 66 9 9999-9999&quot;, &quot;+55 66 9 8888-8888&quot;, &quot;+55 66 7777-7777&quot;]
+};</code></pre><p>We can write a rule like that:</p>
+<pre class="prettyprint source lang-js"><code>const personRule = {
+  // The keys in rule object must math the path in value object
+  id: {
+    // When setted the alias will be used instead of rule key in output messages, this must be a
+    // string.
+    alias: &quot;Code&quot;,
+    // Empty rule accept a boolean and check if the value can be an empty value, the emptiness of the
+    // value are evaluated by Checkers.isEmpty()
     empty: false,
-    min: 18,              // For Numeric types refer to literal value
+    // The type rule receive a string or an array of string that must match one of the types
+    // returned by Helper.getType().
+    type: &quot;integer&quot;,
+    // Min rule accept a number or a Date object and can be aplied to Numbers, Strings, Arrays and
+    // Date objects, Strings and Arrays are evaluated by their length, Dates are compared using
+    // .getTime() value.
+    min: 1
+  },
+  name: {
+    alias: &quot;Full name&quot;,
+    empty: false,
+    type: &quot;string&quot;,
+    min: 3,
+    // Max rule follow the same patterns of min rule
+    max: 100
+  },
+  // Not putting an alias tells to plugin to use rule key as field name 'gender' in this case
+  gender: {
+    type: &quot;string&quot;,
+    empty: false,
+    // Pattern rule can be a RegExp object a String or an Array, if a String or Array the value will
+    // be used as argument to generate a new RegExp object
+    pattern: [&quot;^(M|F)$&quot;, &quot;i&quot;]
+  },
+  birth: {
+    type: &quot;date&quot;,
+    empty: false,
+    // because of youngness of our functions, the plugin only can calculate dates after 1970-01-01,
+    // feel free to teach it how to count better the time, or wait for future releases
+    min: new Date(&quot;1970-01-01&quot;),
+    max: new Date(&quot;2011-01-01&quot;)
+  },
+  email: {
+    type: &quot;string&quot;,
+    empty: true,
+    // Email rule accepts a boolean and uses a regexp to evaluate it.
+    email: true
+  },
+  // There is two ways to evaluate nested objects.
+  // We can put the path to deep properties using dot notation like 'address.zipCode' as the rule
+  // key or point to nested object and use recursive rule with a fully qualified rule object.
+  &quot;address.zipCode&quot;: {
+    alias: &quot;Zip code&quot;,
+    empty: false,
+    type: &quot;string&quot;,
+    pattern: /^[0-9]{8}$/ // This is for brazilian zip codes without mask
+  },
+  &quot;address.cityName&quot;: {
+    alias: &quot;Town&quot;,
+    empty: false,
+    type: &quot;string&quot;
+  },
+  &quot;address.street&quot;: {
+    alias: &quot;Street&quot;,
+    // We can pass a callback function as a rule, it will receive the value as first argument,
+    // Alias and a dictionary as second and third...
+    // This function must return a string in case of error, any other value will be ignored
+    callback: (value, alias, dic) => {
+      // Custom evaluation code
+    }
+  },
+  // Then... Let's work with arrays. Array rule are (for now) the only ones that accept nested rules
+  phones: {
+    // The first rule level refers to evaluation of array itself
+    alias: &quot;Phones&quot;,
+    min: 1,
+    max: 5,
+    // The rules under '_' property will be used to evaluate all items into the array
+    _: {
+      alias: &quot;Phone&quot;, // Note the singularization... Guess the reason :)
+      type: &quot;string&quot;,
+      min: 18,
+      max: 18
+    },
+    // The rules under '_i' where 'i' is the index of array will overwrite the '_' rules (all they)
+    // at the specified index
+    _2: {
+      alias: &quot;Phone&quot;,
+      type: &quot;string&quot;,
+      min: 16,
+      max: 16
+    }
   }
-}
-
-vm.$validate(value, rules); // undefined</code></pre><h2>Versioning</h2><p>We use <a href="http://semver.org/">SemVer</a> for versioning.</p>
+};</code></pre><p>Now let's check our suspicious object</p>
+<pre class="prettyprint source lang-js"><code>// Let's assume 'app' as a vue instance...
+app.$validate(aPerson, personRule); // undefined</code></pre><p>A <code>undefined</code> signifies that all is ok with our person object.
+Let's see what happens if:</p>
+<pre class="prettyprint source lang-js"><code>aPerson.birth = new Date();</code></pre><p>Then...</p>
+<pre class="prettyprint source lang-js"><code>app.$validate(aPerson, personRule); // [&quot;Birth can not be major than 2011-01-01T00:00:00.000Z&quot;]</code></pre><p>Let's do more :smiling_imp:</p>
+<pre class="prettyprint source lang-js"><code>aPerson.name = &quot;&quot;;
+aPerson.gender = &quot;X&quot;;
+aPerson.address.zipCode = null;
+aPerson.phones[1] = 987765;</code></pre><p>Now...</p>
+<pre class="prettyprint source lang-js"><code>app.$validate(aPerson, personRule);</code></pre><pre class="prettyprint source lang-js"><code>[
+  &quot;Full name can not be empty&quot;,
+  &quot;Full name must have at least 3 character(s)&quot;,
+  &quot;Gender is invalid&quot;,
+  &quot;Birth can not be major than 2011-01-01T00:00:00.000Z&quot;,
+  &quot;Zip code can not be empty&quot;,
+  &quot;Zip code must be of type 'string'&quot;,
+  &quot;value for rule 'pattern' must be a text&quot;,
+  &quot;Phones 2 Phone must be of type 'string'&quot;,
+  &quot;Phones 2 Phone must be major than 17&quot;
+];</code></pre><p>See the <a href="https://geandre.github.io/vue-check/">docs</a> for more details</p>
+<p>It's all for now fellows...</p>
+<h4>Related docs</h4><ul>
+<li><a href="https://geandre.github.io/vue-check/module-Helpers.html#~getType">Helpers.getType()</a></li>
+<li><a href="https://geandre.github.io/vue-check/module-Checkers.html#~isEmpty">Checkers.isEmpty()</a></li>
+<li><a href="https://geandre.github.io/vue-check/regexps.js.html">Regexp.email</a></li>
+<li><a href="https://github.com/geandre/vue-check/tree/master/src/locales">Dictionaries/Locale Modules</a></li>
+</ul>
+<h2>Versioning</h2><p>We use <a href="http://semver.org/">SemVer</a> for versioning.</p>
 <h2>Authors</h2><ul>
 <li><strong>Geandre Miranda</strong> <strong><a href="http://geandre.github.io">Homepage</a></strong></li>
 </ul>
@@ -99,7 +211,7 @@ vm.$validate(value, rules); // undefined</code></pre><h2>Versioning</h2><p>We us
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Jul 20 2018 12:33:45 GMT-0400 (Hora Padrão Brasil Central)
+    Documentation generated at Fri Jul 20 2018 18:10:07 GMT-0400 (Hora Padrão Brasil Central)
 </footer>
 
 <script>prettyPrint();</script>
