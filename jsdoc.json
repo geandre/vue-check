@@ -1,0 +1,17 @@
+{
+  "source": {
+    "include": ["README.md"]
+  },
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "destination": "./docs/",
+    "encoding": "utf8",
+    "private": true,
+    "recurse": true,
+    "template": "node_modules/postman-jsdoc-theme"
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": true
+  }
+}
