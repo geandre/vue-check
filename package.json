@@ -6,10 +6,10 @@
   },
   "contributors": [],
   "bugs": {
-    "url": "https://gitlab.com/geandre/vue-check/issues"
+    "url": "https://github.com/geandre/vue-check/issues"
   },
   "deprecated": false,
-  "description": "A vue plugin to check plain javascript objects",
+  "description": "A Vue plugin to check data objects",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.26.3",
@@ -39,22 +39,20 @@
     "webpack": "^4.16.0",
     "webpack-cli": "^3.0.8"
   },
-  "homepage": "https://gitlab.com/geandre/vue-check#README",
+  "homepage": "https://github.com/geandre/vue-check#README",
   "keywords": [
     "vue",
     "check",
     "data",
     "validation"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "name": "vue-check",
-  "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/geandre/vue-check.git"
+    "url": "git+https://github.com/geandre/vue-check.git"
   },
   "scripts": {
-    "build": "webpack --config .webpack-config.js",
     "jsdoc": "./node_modules/.bin/jsdoc ./src -c ./jsdoc.json",
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register",
     "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register --watch",
