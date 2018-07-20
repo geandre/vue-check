@@ -2,6 +2,8 @@
 
 A Vue plugin to check data objects
 
+Version `1.0.1`
+
 ## Installing
 
 Into a Vue 2 project
@@ -13,7 +15,7 @@ npm install --save vue-check
 ```
 import VueCheck from 'vue-check';
 
-Vue.use(VueCheck, { lang: 'en-US', format: 'detailed' });
+Vue.use(VueCheck, { lang: 'en-US', format: 'flat' });
 ```
 
 ## Getting Started
@@ -28,7 +30,8 @@ vm.$check.isEmpty(null)     // true
 
 > Check the docs at section Checkers for more.
 
-Also a property called $validate is provided with a function that can check an object based in a rule object, and returning a list of inconsistency:
+Also a property called $validate is provided with a function that can check an object based in a
+rule object, and returning a list of inconsistency:
 
 ```
 const value = {
@@ -37,7 +40,8 @@ const value = {
 }
 
 const rules = {
-  name: {                 // The rule key must match the value property or be a path with dot notation as 'prop.subprop'
+  name: {                 // The rule key must match the value property or be a path with dot
+                          // notation as 'prop.subprop'
     alias: 'Full Name',   // An alias to the field, if none is provided the rule key is used
     type: 'string',       // MUST BE a string
     empty: false,         // CAN NOT BE empty
@@ -61,7 +65,7 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ## Authors
 
-- **Geandre Miranda**
+- **Geandre Miranda** **[Homepage](http://geandre.github.io)**
 
 ## License
 
