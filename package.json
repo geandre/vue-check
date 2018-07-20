@@ -59,6 +59,7 @@
     "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register --watch",
     "test:only": "./node_modules/.bin/mocha --watch --require babel-register ",
     "test:coverage": "nyc npm test",
+    "precommit": "./node_modules/.bin/eslint  ./src/**",
     "prepush": "npm run jsdoc && git add docs && git commit -m \"Update docs\""
   },
   "version": "1.0.1"
