@@ -37,6 +37,7 @@ const setDefaultOptions = function (options = {}) {
  */
 const getOutputFormat = function (format) {
   /* istanbul ignore if */
+  // eslint-disable-next-line
   if (!Checkers.isString(format)) format = defaultOptions.format;
 
   format = format.trim();
