@@ -48,23 +48,26 @@
 
     <section class="readme">
         <article><h1>VueCheck</h1><p>A Vue plugin to check data objects</p>
+<p>Version <code>1.0.1</code></p>
 <h2>Installing</h2><p>Into a Vue 2 project</p>
-<pre class="prettyprint source"><code>npm install --save github:geandre/vue-check</code></pre><pre class="prettyprint source"><code>import VueCheck from 'vue-check';
+<pre class="prettyprint source"><code>npm install --save vue-check</code></pre><pre class="prettyprint source"><code>import VueCheck from 'vue-check';
 
-Vue.use(VueCheck, { lang: 'en-US', format: 'detailed' });</code></pre><h2>Getting Started</h2><p>VueCheck exposes an instance property called $check with some checker methods:</p>
+Vue.use(VueCheck, { lang: 'en-US', format: 'flat' });</code></pre><h2>Getting Started</h2><p>VueCheck exposes an instance property called $check with some checker methods:</p>
 <pre class="prettyprint source"><code>vm.$check.isString(&quot;&quot;)      // true
 vm.$check.isBoolean(false)  // true
 vm.$check.isEmpty(null)     // true</code></pre><blockquote>
 <p>Check the docs at section Checkers for more.</p>
 </blockquote>
-<p>Also a property called $validate is provided with a function that can check an object based in a rule object, and returning a list of inconsistency:</p>
+<p>Also a property called $validate is provided with a function that can check an object based in a
+rule object, and returning a list of inconsistency:</p>
 <pre class="prettyprint source"><code>const value = {
   name: &quot;Geandre Miranda&quot;,
   age: 23
 }
 
 const rules = {
-  name: {                 // The rule key must match the value property or be a path with dot notation as 'prop.subprop'
+  name: {                 // The rule key must match the value property or be a path with dot
+                          // notation as 'prop.subprop'
     alias: 'Full Name',   // An alias to the field, if none is provided the rule key is used
     type: 'string',       // MUST BE a string
     empty: false,         // CAN NOT BE empty
@@ -81,9 +84,9 @@ const rules = {
 
 vm.$validate(value, rules); // undefined</code></pre><h2>Versioning</h2><p>We use <a href="http://semver.org/">SemVer</a> for versioning.</p>
 <h2>Authors</h2><ul>
-<li><strong>Geandre Miranda</strong></li>
+<li><strong>Geandre Miranda</strong> <strong><a href="http://geandre.github.io">Homepage</a></strong></li>
 </ul>
-<h2>License</h2><p>Copyright © Geandre Miranda - All rights reserved.</p></article>
+<h2>License</h2><p>MIT</p></article>
     </section>
 
 
@@ -96,7 +99,7 @@ vm.$validate(value, rules); // undefined</code></pre><h2>Versioning</h2><p>We us
 <br class="clear">
 
 <footer>
-    Documentation generated at Thu Jul 19 2018 20:55:10 GMT-0400 (Hora Padrão Brasil Central)
+    Documentation generated at Fri Jul 20 2018 12:33:45 GMT-0400 (Hora Padrão Brasil Central)
 </footer>
 
 <script>prettyPrint();</script>
