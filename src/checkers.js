@@ -147,7 +147,15 @@ const isEmpty = (value) => {
   if (isArray(value) || isString(value)) return value.length === 0;
 
   // Numbers,  booleans, functions and Promises
-  if (isNumber(value) || isBoolean(value) || isFunction(value) || isPromise(value)) return false;
+  if (
+    isNumber(value) ||
+    isBoolean(value) ||
+    isFunction(value) ||
+    isPromise(value) ||
+    isDate(value)
+  ) {
+    return false;
+  }
 
   // Objects
   return Object.entries(value).length === 0;
