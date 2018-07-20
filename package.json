@@ -31,6 +31,7 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-vue": "^4.0.0",
+    "husky": "^0.14.3",
     "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
@@ -57,7 +58,8 @@
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register",
     "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register --watch",
     "test:only": "./node_modules/.bin/mocha --watch --require babel-register ",
-    "test:coverage": "nyc npm test"
+    "test:coverage": "nyc npm test",
+    "prepush": "npm run jsdoc && git add docs && git commit -m \"Update docs\""
   },
   "version": "1.0.1"
 }
