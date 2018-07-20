@@ -65,4 +65,4 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ## License
 
-Copyright © Geandre Miranda - All rights reserved.
+MIT
