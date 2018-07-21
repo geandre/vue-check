@@ -187,7 +187,15 @@ const isEmpty = (value) => {
   if (isArray(value) || isString(value)) return value.length === 0;
 
   // Numbers,  booleans, functions and Promises
-  if (isNumber(value) || isBoolean(value) || isFunction(value) || isPromise(value)) return false;
+  if (
+    isNumber(value) ||
+    isBoolean(value) ||
+    isFunction(value) ||
+    isPromise(value) ||
+    isDate(value)
+  ) {
+    return false;
+  }
 
   // Objects
   return Object.entries(value).length === 0;
@@ -224,7 +232,7 @@ export default {
 <br class="clear">
 
 <footer>
-    Documentation generated at Thu Jul 19 2018 20:55:10 GMT-0400 (Hora Padrão Brasil Central)
+    Documentation generated at Fri Jul 20 2018 18:11:03 GMT-0400 (Hora Padrão Brasil Central)
 </footer>
 
 <script>prettyPrint();</script>
