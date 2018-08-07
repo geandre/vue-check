@@ -1,8 +1,10 @@
 # VueCheck
 
-A Vue plugin to check data objects
+<img src="https://badgen.net/badge/npm/1.0.2/blue"/>&nbsp;
+<img src="https://badgen.net/badge/license/MIT/green"/>&nbsp;
+<img src="https://badgen.net/badge/coverage/100%25/purple"/>&nbsp;
 
-Version `1.0.2`
+A Vue plugin to check data objects
 
 ## Installing
 
